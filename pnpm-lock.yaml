@@ -4,6 +4,17 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  svag-types:
+    specifier: ^0.1.5
+    version: 0.1.5
+  svag-utils:
+    specifier: ^0.1.5
+    version: 0.1.5
+  zod:
+    specifier: ^3.23.8
+    version: 3.23.8
+
 devDependencies:
   '@types/jest':
     specifier: ^29.5.12
@@ -4918,7 +4929,6 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -6101,6 +6111,17 @@ packages:
       - babel-plugin-macros
     dev: true
 
+  /svag-types@0.1.5:
+    resolution: {integrity: sha512-ZArbXkOtavAeCcpW1spxoTmUPPtxpyOI7jsj49scxuxmknHxiGgNTWtp0Vj3wQb4gNwz2qUn+Da3HI6U+20UTA==}
+    dev: false
+
+  /svag-utils@0.1.5:
+    resolution: {integrity: sha512-8UMHSOOxJNMUipzjCtmBsuNVddEYgqcmjS3w29WQugMGaSs0irsaGhiDxWhBnOVd2bv41h5jjuFFjCuWuKC0QQ==}
+    dependencies:
+      lodash: 4.17.21
+      svag-types: 0.1.5
+    dev: false
+
   /synckit@0.6.2:
     resolution: {integrity: sha512-Vhf+bUa//YSTYKseDiiEuQmhGCoIF3CVBhunm3r/DQnYiGT4JssmnKQc44BIyOZRK2pKjXXAgbhfmbeoC9CJpA==}
     engines: {node: '>=12.20'}
@@ -6679,4 +6700,3 @@ packages:
 
   /zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
-    dev: true
