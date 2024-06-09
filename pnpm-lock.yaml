@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.1.7
     version: 0.1.7
   svag-utils:
-    specifier: ^0.1.7
-    version: 0.1.7
+    specifier: ^0.1.8
+    version: 0.1.8
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -6211,30 +6211,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svag-cli-utils@0.1.65(@types/node@20.12.12):
-    resolution: {integrity: sha512-Ci0mTyFoBlyu0Xnhkvi7RI4scz6p1BUCalWfuY7XqqphTufvYBiWDyK+XoBz5UN1CaBAGv5w5cu/wP9RCiwvaw==}
-    dependencies:
-      dedent: 1.5.3
-      edit-json-file: 1.8.0
-      enquirer: 2.4.1
-      fast-glob: 3.3.2
-      js-yaml: 4.1.0
-      json-stable-stringify: 1.1.1
-      lodash: 4.17.21
-      omelette: 0.4.17
-      picocolors: 1.0.1
-      ts-node: 10.9.2(@types/node@20.12.12)(typescript@5.4.5)
-      tsx: 4.11.2
-      typescript: 5.4.5
-      yargs: 17.7.2
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - babel-plugin-macros
-    dev: true
-
   /svag-cli-utils@0.1.67(@types/node@20.12.12):
     resolution: {integrity: sha512-blXoB9DN/rIE8ex2P1b4fUFid5wU0x/etAM2HauatD5iFZS29udrXcB4shPnI8s1BJQicM8kNsl4wXhMKiWBHg==}
     dependencies:
@@ -6283,7 +6259,7 @@ packages:
       dedent: 1.5.3
       eslint: 9.3.0
       lodash: 4.17.21
-      svag-cli-utils: 0.1.65(@types/node@20.12.12)
+      svag-cli-utils: 0.1.67(@types/node@20.12.12)
       ts-jest: 29.1.3(@babel/core@7.24.5)(jest@30.0.0-alpha.4)(typescript@5.4.5)
       typescript: 5.4.5
       zod: 3.23.8
@@ -6377,8 +6353,8 @@ packages:
     resolution: {integrity: sha512-dsQdTUcHDEen7poY5FHwwXRISSwwIl3EDSUYYvUu+O6/9B50LVIpJw1gYIgy9Wp/0kGCLMgc/G2oHzBMWEo2wA==}
     dev: false
 
-  /svag-utils@0.1.7:
-    resolution: {integrity: sha512-cC8PqIc8V0g3t7Xlb/0SUoB1lEy/yilhZYq9IzHqCorbSXy05K5ewPJZ6HbNO9vwcOx6aTedPgCjpSDT12ZEDQ==}
+  /svag-utils@0.1.8:
+    resolution: {integrity: sha512-pgaBGHCDaCBnH8KAqg3h4r1lvYUTFPcNGRYNrV2/HF7VtqVi6iX+kkHG46FQbf2nUEjQ9IRtVw8DkF07FS6vVw==}
     dependencies:
       lodash: 4.17.21
       svag-types: 0.1.7
