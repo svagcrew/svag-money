@@ -40,7 +40,7 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
     thousandsSeparator = defaultThousandsSeparator,
     decimalPolicy = defaultDecimalPolicy,
   }: {
-    amount: number
+    amount: number | bigint
     decimalPoint?: string
     thousandsSeparator?: string
     decimalPolicy?: 'hideIfZero' | 'showAlways' | 'hideAlways'
@@ -80,7 +80,8 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
 
   const floatNumberToIntegerWithDecimals = (number: number) => Math.round(number * 100)
 
-  const integerWithDecimalsToFloatNumber = (integerWithDecimals: number) => integerWithDecimals / 100
+  const integerWithDecimalsToFloatNumber = (integerWithDecimals: number | bigint) =>
+    typeof integerWithDecimals === 'bigint' ? Number(integerWithDecimals) / 100 : integerWithDecimals / 100
 
   const floatNumberToAmountString = ({
     amount,
@@ -116,7 +117,7 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
   }
 
   type ToMoneyProps = {
-    amount: number
+    amount: number | bigint
     amountType?: 'integerWithDecimals' | 'floatNumber'
     currency?: TCurrency
     decimalPoint?: string
@@ -127,7 +128,7 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
     symbolDelimiter?: string
     hideSymbol?: boolean
   }
-  const toMoney = (...args: [ToMoneyProps] | [number] | [number, Omit<ToMoneyProps, 'amount'>]) => {
+  const toMoney = (...args: [ToMoneyProps] | [number | bigint] | [number | bigint, Omit<ToMoneyProps, 'amount'>]) => {
     const {
       amount,
       amountType = defaultAmountType,
@@ -152,7 +153,13 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
       }
     })() as ToMoneyProps
     const amountWithDecimals =
-      amountType === 'integerWithDecimals' ? Math.round(amount) : floatNumberToIntegerWithDecimals(amount)
+      amountType === 'integerWithDecimals'
+        ? typeof amount === 'bigint'
+          ? amount
+          : Math.round(amount)
+        : typeof amount === 'bigint'
+          ? floatNumberToIntegerWithDecimals(Number(amount))
+          : floatNumberToIntegerWithDecimals(amount)
     const amountString = integerWithDecimalsToAmountString({
       amount: amountWithDecimals,
       decimalPoint,
