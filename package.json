@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "svag-types": "^0.1.7",
-    "svag-utils": "^0.1.11",
+    "svag-utils": "^0.1.12",
     "zod": "^3.23.8"
   },
   "devDependencies": {
