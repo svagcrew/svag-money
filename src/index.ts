@@ -46,22 +46,31 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
     decimalPolicy?: 'hideIfZero' | 'showAlways' | 'hideAlways'
   }) => {
     const amountFloatNumber = integerWithDecimalsToFloatNumber(amount)
-    const amountNativeString = amountFloatNumber.toFixed(2)
-    const decimalsExist = !amountNativeString.endsWith('.00')
-    const amountSuitableFloatNumber = (() => {
+    const amountNiceString = amountFloatNumber.toLocaleString('de-DE')
+    const amountNiceSuitableString = (() => {
+      const [nondecimals, decimals] = amountNiceString.split(',')
       if (decimalPolicy === 'showAlways') {
-        return amountFloatNumber
+        if (!decimals) {
+          return amountNiceString + ',00'
+        }
+        if (decimals.length === 1) {
+          return amountNiceString + '0'
+        }
+        return nondecimals + ',' + decimals.slice(0, 2)
       }
       if (decimalPolicy === 'hideAlways') {
-        return Math.round(amountFloatNumber)
+        return nondecimals
       }
-      if (decimalsExist) {
-        return amountFloatNumber
+      // decimalPolicy === hideIfZero
+      if (!decimals) {
+        return nondecimals
       }
-      return Math.round(amountFloatNumber)
+      if (decimals.length === 1) {
+        return amountNiceString + '0'
+      }
+      return nondecimals + ',' + decimals.slice(0, 2)
     })()
-    const amountNiceString = amountSuitableFloatNumber.toLocaleString('de-DE')
-    return amountNiceString.replace(/\./g, thousandsSeparator).replace(/,/g, decimalPoint)
+    return amountNiceSuitableString.replace(/\./g, thousandsSeparator).replace(/,/g, decimalPoint)
   }
 
   const amountStringToIntegerWithDecimals = ({
@@ -194,10 +203,43 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
         message: 'Should be a positive number with with optional two decimal places',
       }
     )
+  const zAmountRawLimited = (min: number, max: number) => {
+    const niceMin = integerWithDecimalsToAmountString({
+      amount: min,
+      decimalPoint: defaultDecimalPoint,
+      thousandsSeparator: defaultThousandsSeparator,
+      decimalPolicy: 'showAlways',
+    })
+    const niceMax = integerWithDecimalsToAmountString({
+      amount: max,
+      decimalPoint: defaultDecimalPoint,
+      thousandsSeparator: defaultThousandsSeparator,
+      decimalPolicy: 'showAlways',
+    })
+    return zAmountRaw.refine(
+      (value) => {
+        const number = parseFloat(value.replace(/\s/g, '').replace(defaultThousandsSeparator, ''))
+        return !Number.isNaN(number) && number >= min / 100 && number <= max / 100
+      },
+      {
+        message:
+          'Should be a positive number with with optional two decimal places not more than ' +
+          niceMax +
+          ' and not less than ' +
+          niceMin,
+      }
+    )
+  }
+
   const zAmountIntegerWithDecimals = zAmountRaw.transform((value) =>
     amountStringToIntegerWithDecimals({ amountString: value })
   )
+  const zAmountIntegerWithDecimalsLimited = (min: number, max: number) =>
+    zAmountRawLimited(min, max).transform((value) => amountStringToIntegerWithDecimals({ amountString: value }))
+
   const zAmountFloatNumber = zAmountRaw.transform((value) => amountStringToFloatNumber({ amountString: value }))
+  const zAmountFloatNumberLimited = (min: number, max: number) =>
+    zAmountRawLimited(min, max).transform((value) => amountStringToFloatNumber({ amountString: value }))
 
   return {
     toMoney,
@@ -211,6 +253,8 @@ export const createMoneyThings = <TCurrency extends PossibleCurrency>({
     floatNumberToAmountString,
     amountStringToFloatNumber,
     zAmountIntegerWithDecimals,
+    zAmountIntegerWithDecimalsLimited,
     zAmountFloatNumber,
+    zAmountFloatNumberLimited,
   }
 }
